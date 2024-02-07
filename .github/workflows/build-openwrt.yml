@@ -97,17 +97,17 @@ jobs:
        clean:  'false'  # 'false' 默认值
        prefix: ${{ github.workspace }}/openwrt
     
-    - name: luci-app-openclash install
-      run: |
-        cd openwrt
-        mkdir package/luci-app-openclash
-        cd package/luci-app-openclash
-        git init
-        git remote add -f origin https://github.com/vernesong/OpenClash.git
-        git config core.sparsecheckout true
-        echo "luci-app-openclash" >> .git/info/sparse-checkout
-        git pull --depth 1 origin master
-        git branch --set-upstream-to=origin/master 
+#    - name: luci-app-openclash install
+#      run: |
+#        cd openwrt
+#        mkdir package/luci-app-openclash
+#        cd package/luci-app-openclash
+#        git init
+#        git remote add -f origin https://github.com/vernesong/OpenClash.git
+#        git config core.sparsecheckout true
+#        echo "luci-app-openclash" >> .git/info/sparse-checkout
+#        git pull --depth 1 origin master
+#        git branch --set-upstream-to=origin/master 
     
     - name: Load custom feeds
       run: |
@@ -207,22 +207,12 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(cat openwrt/wget/op_version1)" >> $GITHUB_OUTPUT
-        git -C openwrt log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/packages log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/luci log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/routing log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/telephony log --pretty=format:"%s(#By %an)"  --graph --since=3.hour >> release.txt
-        git -C openwrt/feeds/helloworld log --pretty=format:"%s(#By %an)"  --graph --since=4.hour >> release.txt
-        git -C openwrt/feeds/passwall log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> release.txt
-        git -C openwrt/package/luci-app-openclash log --pretty=format:"%s(#By %an)"  --graph --since=8.hour >> release.txt
-        test  ! -s release.txt && echo -e "\n* The source code is not updated." >> release.txt
-        sed -i '1i ## Firmware Update Log' release.txt
+        echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
-
+        
     - name: Upload firmware to release
       uses: Guddyx/action-gh-release@main
       if: steps.tag.outputs.status == 'success' && !cancelled()
