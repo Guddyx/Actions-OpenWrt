@@ -11,8 +11,12 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.1.2/g' package/base-files/files/bin/config_generate
-sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=6.1/g' target/linux/x86/Makefile
-#sed -i "s/.*PKG_VERSION:=.*/PKG_VERSION:=4.3.9_v1.2.14/" package/lean/qBittorrent-static/Makefile
-#sed -i "s/.*PKG_VERSION:=.*/PKG_VERSION:=5.0.0-stable/" package/libs/wolfssl/Makefile
-# welcome test
+sed -i 's/192.168.1.1/192.168.1.1/g' package/base-files/files/bin/config_generate
+
+# 移除要替换的包
+rm -rf feeds/luci/applications/luci-app-mosdns
+
+# 添加luci-app-mosdns
+git clone https://github.com/sbwml/luci-app-mosdns.git mosdns
+cp -rf mosdns/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
+rm -rf mosdns
