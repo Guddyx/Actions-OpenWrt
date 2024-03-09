@@ -22,8 +22,5 @@ cp -rf mosdns/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
-# 添加luci-app-mosdns
-#rm -rf feeds/packages/utils/v2dat
-#cp -rf mosdns/luci-app-mosdns/v2dat feeds/packages/utils/v2dat
 
 
