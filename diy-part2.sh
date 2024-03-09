@@ -25,5 +25,5 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 git clone https://github.com/sbwml/luci-app-mosdns.git mosdns
 cp -rf mosdns/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
 cp -rf mosdns/luci-app-mosdns/v2dat feeds/packages/utils/v2dat
-rm -rf mosdns
+
 
