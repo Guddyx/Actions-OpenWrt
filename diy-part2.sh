@@ -15,6 +15,7 @@ sed -i 's/192.168.1.1/192.168.1.1/g' package/base-files/files/bin/config_generat
 
 # 移除要替换的包
 rm -rf feeds/luci/applications/luci-app-mosdns
+rm -rf feeds/packages/utils/v2dat
 
 # 更新golang
 rm -rf feeds/packages/lang/golang
@@ -23,5 +24,6 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 # 添加luci-app-mosdns
 git clone https://github.com/sbwml/luci-app-mosdns.git mosdns
 cp -rf mosdns/luci-app-mosdns feeds/luci/applications/luci-app-mosdns
+cp -rf mosdns/luci-app-mosdns/v2dat feeds/packages/utils/v2dat
 rm -rf mosdns
 
